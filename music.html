@@ -3,17 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mirror Music Player</title>
+<title>Mirror Media Player</title>
 <style>
     body {
         margin: 0;
         background-color: #333;
         color: #fff;
+        font-family: Arial, sans-serif;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
         height: 100vh;
         overflow: hidden;
+    }
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 50px 0;
     }
 
     .mirror-player {
@@ -24,9 +32,7 @@
         border-radius: 50%;
         box-shadow: 0 0 50px rgba(255,255,255,0.2);
         overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        margin-bottom: 20px;
     }
 
     .mirror-player::before {
@@ -40,43 +46,86 @@
         background-size: 10px 10px;
     }
 
+    .video-player, .audio-player {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+
     .controls {
         position: absolute;
         width: 100%;
         height: 100%;
+        top: 0;
+        left: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
+        pointer-events: none;
     }
 
     .controls button {
         background: none;
         border: none;
         color: #fff;
-        font-size: 1.5em;
-        margin: 10px;
+        font-size: 1.2em;
+        margin: 5px;
         cursor: pointer;
+        pointer-events: auto;
     }
 
     .controls button:hover {
         color: #ffcc00;
     }
+
+    .title {
+        margin-bottom: 10px;
+        text-align: center;
+    }
 </style>
 </head>
 <body>
-<div class="mirror-player">
-    <div class="controls">
-        <button onclick="playPause()">Play/Pause</button>
+<div class="section">
+    <div class="title">创作过程</div>
+    <div class="mirror-player">
+        <video id="videoPlayer" class="video-player" src="/Users/limeizhi/Desktop/竹子哥凶人/阴间小曲.mov" loop></video>
+        <div class="controls">
+            <button onclick="playPauseVideo()">Play/Pause</button>
+            <button onclick="muteUnmuteVideo()">Mute/Unmute</button>
+        </div>
     </div>
-    <audio id="audioPlayer" src="/Users/limeizhi/Desktop/呕哑嘲哳难为听.mp3"></audio>
+</div>
+
+<div class="section">
+    <div class="title">最终成品</div>
+    <div class="mirror-player">
+        <div class="controls">
+            <button onclick="playPauseAudio()">Play/Pause</button>
+        </div>
+        <audio id="audioPlayer" class="audio-player" src="/Users/limeizhi/Desktop/呕哑嘲哳难为听.mp3"></audio>
+    </div>
 </div>
 
 <script>
+    var video = document.getElementById('videoPlayer');
     var audio = document.getElementById('audioPlayer');
 
-    function playPause() {
+    function playPauseVideo() {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    }
+
+    function muteUnmuteVideo() {
+        video.muted = !video.muted;
+    }
+
+    function playPauseAudio() {
         if (audio.paused) {
             audio.play();
         } else {
